@@ -1,0 +1,40 @@
+# homeserver.yaml - The configuration file for Synapse
+
+server_name: 'localhost'
+public_baseurl: 'http://localhost:8008'
+registration_shared_secret: 'YOUR_SHARED_SECRET'
+
+# Enable registration for new users
+enable_registration: true
+
+# Allow registration without verification
+enable_registration_without_verification: true
+
+# # Create an admin user
+# admin_user: '@admin:localhost'
+# admin_password: 'changeme'
+
+report_stats: false
+
+database:
+  name: 'psycopg2'
+  args:
+    user: 'synapse'
+    password: 'changeme'
+    database: 'synapse'
+    host: 'db'
+
+redis:
+  host: 'redis'
+  port: 6379
+
+listeners:
+  - port: 8008
+    type: http
+    tls: true
+    resources:
+      - names: [client, federation]
+    x_forwarded: true
+
+tls_private_key_path: '/certs/synapse-key.pem'
+tls_certificate_path: '/certs/synapse-cert.pem'
